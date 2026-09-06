@@ -1,0 +1,13 @@
+{
+  "contractVersion": 1,
+  "id": "fuji-mountain",
+  "title": "Mount Fuji",
+  "description": "Morning clouds, snow-lit slopes and a slowly rippling Lake Kawaguchi. An original procedural landscape, not an animated photograph.",
+  "source": "main.glsl",
+  "initialTime": 24,
+  "posterTime": 24,
+  "pointer": false,
+  "performance": { "fps": 30, "maxPixels": 1500000, "minPixels": 650000, "maxDpr": 1.5 },
+  "tags": ["Landscape", "Water", "Slow drift"],
+  "attribution": "Photo reference: Subramaniam K V, CC BY 3.0. See the demo's reference panel. The shader does not sample this image."
+}

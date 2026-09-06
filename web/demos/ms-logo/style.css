@@ -1,0 +1,64 @@
+:root {
+  color-scheme: dark;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #edf2fb;
+  background: #080c14;
+  font-synthesis: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; overflow: hidden; }
+canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+.overlay { position: fixed; inset: 0; pointer-events: none; }
+header, footer { position: absolute; left: 3.8%; right: 3.8%; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+header { top: max(30px, env(safe-area-inset-top)); }
+.wordmark { display: flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 600; letter-spacing: .2em; color: inherit; text-decoration: none; pointer-events: auto; }
+.brand-mark { width: 15px; height: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; opacity: .75; }
+.brand-mark i { background: #b6c0d0; }
+.edition { margin-left: 14px; color: #738095; font-size: 9px; font-weight: 400; }
+.status { display: flex; align-items: center; gap: 8px; font-size: 9px; letter-spacing: .17em; color: #8b98a9; }
+.status > span:first-child { width: 4px; height: 4px; border-radius: 50%; background: #9bb6b3; box-shadow: 0 0 9px #9bb6b34d; }
+#motion-time { font-variant-numeric: tabular-nums; }
+button:disabled { opacity: .4; cursor: wait; }
+.clock { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); text-align: center; transition: opacity .5s; }
+.clock.hidden { opacity: 0; visibility: hidden; }
+.lock { width: 19px; height: 19px; margin: 0 auto 18px; opacity: .5; }
+.lock svg { fill: none; stroke: currentColor; stroke-width: 1.4; }
+time { display: block; font-size: clamp(58px, 8vw, 100px); font-weight: 200; line-height: 1.06; letter-spacing: -.065em; font-variant-numeric: tabular-nums; text-shadow: 0 2px 40px #bfdcff16; }
+.clock p { margin: 15px 0 0; color: #a5afbf; font-size: 13px; letter-spacing: .06em; white-space: nowrap; }
+.caption { position: absolute; left: 50%; top: 77%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.hairline { display: block; width: 1px; height: 28px; margin: 0 auto 17px; background: linear-gradient(transparent, #72839d66); }
+.caption p { font-size: 13px; font-weight: 300; color: #b8c2d1; letter-spacing: .07em; margin: 0 0 13px; }
+.caption-detail { color: #667389; font-size: 8px; letter-spacing: .22em; }
+footer { bottom: max(28px, env(safe-area-inset-bottom)); }
+.piece > span { font-size: 9px; letter-spacing: .2em; color: #aab6c7; }
+.piece small { display: block; font-size: 10px; color: #627086; margin-top: 9px; }
+nav { pointer-events: auto; display: flex; align-items: center; gap: 4px; padding: 5px; border: 1px solid #d0e2ff12; border-radius: 24px; background: #0d142077; backdrop-filter: blur(16px); }
+button, nav a { font: inherit; font-size: 10px; color: #a6b2c3; text-decoration: none; border: 0; border-radius: 18px; padding: 9px 13px; background: transparent; cursor: pointer; transition: background .2s, color .2s; }
+button:hover, nav a:hover { background: #cbdfff13; color: #fff; }
+button:focus-visible, nav a:focus-visible { outline: 2px solid #97caff; outline-offset: 2px; }
+button[aria-pressed="true"] { background: #cbdfff0c; color: #e5edfb; }
+#error { position: fixed; inset: auto 20px 90px; padding: 20px; border: 1px solid #ff8a7380; border-radius: 12px; background: #271812; color: #ffd8cc; white-space: pre-wrap; font: 13px/1.6 monospace; max-height: 50vh; overflow: auto; }
+@media (max-width: 650px) {
+  header { top: 24px; left: 24px; right: 24px; }
+  .edition { display: none; }
+  header { align-items: start; flex-direction: column; gap: 10px; }
+  .status { font-size: 8px; letter-spacing: .05em; }
+  .clock { top: 17%; }
+  time { font-size: 76px; }
+  .caption { top: 73%; }
+  footer { bottom: max(22px, env(safe-area-inset-bottom)); flex-direction: column; gap: 18px; }
+  .piece { text-align: center; }
+  .piece small { display: none; }
+  button, nav a { padding: 9px 11px; }
+}
+@media (max-height: 600px) and (min-width: 651px) {
+  .clock { top: 12%; }
+  time { font-size: 52px; }
+  .lock { display: none; }
+  .clock p { margin-top: 8px; }
+  .caption { top: 76%; }
+  .hairline, .caption-detail { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}

@@ -1,0 +1,27 @@
+PHOTOGRAPH: fuji-reference.jpg
+Title: Mount Fuji from Lake Kawaguchi
+Photographer: Subramaniam K V
+Source: https://commons.wikimedia.org/wiki/File:Mount_Fuji_from_Lake_Kawaguchi.jpg
+Original: https://upload.wikimedia.org/wikipedia/commons/1/1c/Mount_Fuji_from_Lake_Kawaguchi.jpg
+License: Creative Commons Attribution 3.0 Unported
+License URL: https://creativecommons.org/licenses/by/3.0/
+Changes: None. Displayed scaled in the reference dialog.
+
+The photo is a visual reference only and is not sampled by the GLSL shader.
+The procedural scene is an original interpretation, not a photographic reproduction.
+The lake, sky, mountain, snow and cloud materials are generated mathematically.
+
+Conceptual technique references (no source code copied):
+Inigo Quilez, Elevated: https://www.shadertoy.com/view/lsf3WH
+The Book of Shaders, Fractal Brownian Motion: https://thebookofshaders.com/13/
+
+This is a browser-based visual lockscreen concept, not an operating-system lock.
+Start a static HTTP server at the REPOSITORY ROOT, for example:
+python3 -m http.server 8766 --bind 127.0.0.1
+Then open http://127.0.0.1:8766/web/demos/fuji-mountain/
+
+glsl/fuji-mountain/main.glsl can be pasted into Shadertoy's Image pass without channels.
+Keyboard: Space pauses motion; H hides/restores the UI; F toggles fullscreen.
+Reduced-motion preferences disable animation by default.
+The playback indicator shows the animation clock and explains paused states.
+Press Play to explicitly enable animation even when reduced motion is enabled.

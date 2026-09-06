@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#182b40">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <title>Fuji / A moment before morning</title>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <canvas id="landscape" aria-label="Procedurally rendered Mount Fuji, snow-lit slopes, drifting clouds and a gently rippling lake"></canvas>
+  <div class="scrim" aria-hidden="true"></div>
+  <main id="interface">
+    <header>
+      <a class="identity" href="../../" aria-label="Back to shader gallery"><svg viewBox="0 0 32 22" aria-hidden="true"><path d="m2 19 11-15 4 1 13 14M10 8l4 2 3-2 5 5"/></svg><span>STILL / JAPAN</span></a>
+      <span class="series">LANDSCAPE STUDIES <span>002</span></span>
+    </header>
+    <section class="clock" aria-label="Local date and time">
+      <svg class="lock" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="10" width="12" height="10" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <p id="date"></p>
+      <time id="time"></time>
+      <span class="clock-note">A MOMENT BEFORE MORNING</span>
+    </section>
+    <footer>
+      <div class="location"><span class="eyebrow">YAMANASHI, JAPAN</span><h1>Mount Fuji</h1><p>Lake Kawaguchi <span>·</span> 35.51° N / 138.76° E</p></div>
+      <div class="right">
+        <div class="live-label" data-state="loading"><span class="motion-dot" aria-hidden="true"></span><span id="motion-status" role="status">LOADING SHADER</span><span id="motion-time" aria-hidden="true">00:00</span></div>
+        <nav aria-label="Landscape controls">
+          <button id="motion" type="button" aria-pressed="false" disabled>Pause</button>
+          <button id="clean" type="button" aria-pressed="false" title="Hide interface (H)">Hide UI</button>
+          <button id="fullscreen" type="button" title="Fullscreen (F)">Fullscreen</button>
+          <button id="reference" type="button">Photo reference <span aria-hidden="true">↗</span></button>
+          <a id="download" href="../../../glsl/fuji-mountain/main.glsl" download>GLSL <span aria-hidden="true">↓</span></a>
+        </nav>
+      </div>
+    </footer>
+  </main>
+  <button id="restore" type="button" hidden>Show controls</button>
+  <dialog id="reference-dialog" aria-labelledby="reference-title">
+    <div class="dialog-heading"><div><span class="eyebrow">PHOTOGRAPHIC REFERENCE</span><h2 id="reference-title">From a real place.</h2></div><button id="close-reference" type="button" aria-label="Close photograph reference">Close</button></div>
+    <img src="assets/fuji-reference.jpg" alt="Mount Fuji with a snow-covered summit behind Lake Kawaguchi, photographed on a bright sunny day" width="1728" height="1152">
+    <p>“Mount Fuji from Lake Kawaguchi” by <strong>Subramaniam K V</strong>.
+      <a href="https://commons.wikimedia.org/wiki/File:Mount_Fuji_from_Lake_Kawaguchi.jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a> ·
+      <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noreferrer">CC BY 3.0</a>. Original photograph, unmodified.</p>
+    <p>The photograph informs the silhouette, snow cover and layered foothills. The landscape behind this panel is an original, texture-free shader interpretation with a different light and composition, not an animated photograph.</p>
+    <p class="technique">Technique references: heightfield rendering and atmospheric depth, as seen in
+      <a href="https://www.shadertoy.com/view/lsf3WH" target="_blank" rel="noreferrer">iq’s Elevated</a>;
+      <a href="https://thebookofshaders.com/13/" target="_blank" rel="noreferrer">fractal Brownian motion</a> for clouds and terrain.
+      No Shadertoy source code is copied.</p>
+  </dialog>
+  <div id="error" role="alert" hidden></div>
+</body>
+</html>

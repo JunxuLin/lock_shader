@@ -1,0 +1,13 @@
+{
+  "contractVersion": 1,
+  "id": "ms-logo",
+  "title": "Suspended Glass",
+  "description": "Four colored glass blocks with depth, polished bevels, a spring entrance and softly damped pointer parallax.",
+  "source": "main.glsl",
+  "initialTime": 0,
+  "posterTime": 8,
+  "pointer": true,
+  "performance": { "fps": 60, "maxPixels": 2000000, "minPixels": 650000, "maxDpr": 2 },
+  "tags": ["Glass", "Parallax", "Spring motion"],
+  "attribution": "Unofficial Microsoft logo study. Microsoft names and logos are trademarks of their respective owners; no affiliation or endorsement."
+}

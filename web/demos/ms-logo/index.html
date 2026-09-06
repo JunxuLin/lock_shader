@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#080c14">
+    <link rel="icon" href="data:,">
+    <title>Fourfold — Glass lockscreen</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Four extruded colored glass blocks floating in perspective, with spring motion and pointer parallax"></canvas>
+    <main class="overlay">
+      <header>
+        <a class="wordmark" href="../../" aria-label="Back to shader gallery"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span> FOURFOLD<span class="edition">A STUDY IN LIGHT</span></a>
+        <span class="status"><span aria-hidden="true"></span><span id="motion-status" role="status">LOADING</span><span id="motion-time" aria-hidden="true">00:00</span></span>
+      </header>
+      <section class="clock" aria-label="Local time">
+        <div class="lock" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="10" width="12" height="10" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v2"/></svg></div>
+        <time id="time"></time>
+        <p id="date"></p>
+      </section>
+      <div class="caption"><span class="hairline"></span><p>Light, with a little gravity.</p><span class="caption-detail">MOVE TO EXPLORE / PRESS R TO REASSEMBLE</span></div>
+      <footer>
+        <div class="piece"><span>02 / SUSPENDED GLASS</span><small>Microsoft logo study · Visual concept, not a system lock</small></div>
+        <nav aria-label="Preview controls">
+          <button id="motion" type="button" aria-pressed="false" title="Pause animation (Space)" disabled>Pause</button>
+          <button id="clock-toggle" type="button" aria-pressed="true" title="Show or hide clock (H)">Clock</button>
+          <button id="replay" type="button" title="Replay wake animation (R)" disabled>Wake</button>
+          <button id="fullscreen" type="button" title="Toggle fullscreen (F)">Fullscreen</button>
+          <a id="download" href="../../../glsl/ms-logo/main.glsl" download>GLSL <span aria-hidden="true">↗</span></a>
+        </nav>
+      </footer>
+    </main>
+    <div id="error" role="alert" hidden></div>
+  </body>
+</html>
