@@ -43,9 +43,9 @@ export function mountControls(container, scene, onChange) {
   hint.textContent = "Scene time changes the light, not the clock. Copy the page URL to share this selection.";
   hint.className = "scene-hint";
   container.append(form, notice, hint);
-  function apply(next, { writeURL = true, immediate = false } = {}) {
+  function apply(next, { writeURL = true, immediate = false, notify = true } = {}) {
     validateState(scene.controls, next);
-    onChange(next, { immediate });
+    if (notify) onChange(next, { immediate });
     state = { ...next };
     for (const [key, { field, output }] of fields) {
       field.value = String(state[key]);
@@ -70,4 +70,5 @@ export function mountControls(container, scene, onChange) {
   }
   window.addEventListener("popstate", restore);
   restore();
+  return { get state() { return { ...state }; }, setState: apply };
 }

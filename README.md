@@ -62,13 +62,29 @@ immediately. Invalid URL values show a warning and use the relevant default.
 The astronomical lighting and seasonal vegetation are artistic approximations,
 not a date/location-based solar simulation.
 
+**Fuji 2 day preview:** open **Season, weather & light**, then select
+**Preview day / 60s**. One complete 24-hour cycle starts at the selected scene hour
+and advances at a constant rate: one real second represents 24 scene minutes.
+Clouds, water and the system clock keep their normal speed. The scene hour moves
+continuously, without the usual parameter easing or extra rendering loop.
+
+Pause, hidden tabs and the reference dialog freeze preview progress rather than
+skipping ahead. Explicitly starting a preview also starts a paused/reduced-motion
+player. If it started from pause, finishing or stopping returns to pause; otherwise
+the current Play/Pause choice is kept. The preview runs
+once and returns to the starting hour. **Stop day preview** saves the nearest
+15-minute setting; manually changing controls or restoring browser history cancels
+the preview. The slider follows progress, but the URL is only saved when the
+preview stops/completes or the user changes a setting.
+
 ## Two Fuji editions
 
 The annotated tag **`fuji-v1`** preserves the complete original configurable release
 (`f00a4f5`). Fuji 1 keeps its existing `fuji-mountain` URL, shader, visual profiles,
 resolver and player adapter; only its gallery label changes. Fuji 2 has separate
 `glsl/fuji2`, `scenes/fuji2` and `web/demos/fuji2` folders, so subsequent artistic
-changes do not replace Fuji 1. The common WebGL runtime remains unchanged.
+changes do not replace Fuji 1. Shared runtime additions are opt-in; Fuji 1 keeps its
+original playback behavior.
 
 Fuji 2's **References** panel shows licensed photographs, dates when available,
 observed features, source links and limits. The settings panel explicitly flags

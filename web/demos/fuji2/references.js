@@ -55,7 +55,8 @@ export async function mountReferences() {
     const text = `${related.length} related ${related.length === 1 ? "photo" : "photos"}, not an exact-match verification. ${
       gaps.length ? `No direct reference for: ${gaps.join(", ")}; these conditions are inferred.`
         : "References cover individual aspects only; their combination is inferred."}`;
-    document.querySelector("#evidence-summary").textContent = text;
+    const summary = document.querySelector("#evidence-summary");
+    if (summary.textContent !== text) summary.textContent = text;
     const hour = String(Math.floor(state.timeOfDay)).padStart(2, "0");
     const minute = String(Math.round(state.timeOfDay % 1 * 60)).padStart(2, "0");
     document.querySelector("#reference-selection").textContent = `${state.season} / ${state.weather} / ${hour}:${minute} scene time. ${text}`;

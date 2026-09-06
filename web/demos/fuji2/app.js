@@ -5,6 +5,7 @@ import { stateFromURL } from "../../runtime/parameters.js";
 import { mountControls } from "../../runtime/controls.js";
 import { resolveFujiParameters } from "../../../scenes/fuji2/resolve.js";
 import { mountReferences } from "./references.js";
+import { mountDayPreview } from "./day-preview.js";
 
 const motion = document.querySelector("#motion");
 const clean = document.querySelector("#clean");
@@ -35,11 +36,14 @@ async function start() {
   const resolve = state => resolveFujiParameters(state, scene, profiles);
   const initial = stateFromURL(scene.controls, new URL(location.href)).state;
   const player = await createPlayer(document.querySelector("canvas"), manifestUrl, { parameters: resolve(initial) });
-  mountControls(document.querySelector("#scene-controls"), scene, (state, options) => {
+  let dayPreview;
+  const controls = mountControls(document.querySelector("#scene-controls"), scene, (state, options) => {
+    dayPreview?.cancel();
     player.setParameters(resolve(state), options);
     document.querySelector(".clock-note").textContent = `${state.season.toUpperCase()} / ${state.weather.toUpperCase()} / SCENE LIGHT`;
     updateReferences(state);
   });
+  dayPreview = mountDayPreview(player, scene, controls, updateReferences);
   document.querySelector("#download").href = player.sourceUrl.href;
   bindPlayback(player, motion, document.querySelector("#motion-status"), document.querySelector("#motion-time"));
   const syncDialog = () => player.setSuspended("reference", dialog.open);

@@ -26,6 +26,11 @@
     <details class="scene-settings">
       <summary>Season, weather &amp; light</summary>
       <div id="scene-controls"></div>
+      <div class="day-preview">
+        <button id="day-preview" type="button" aria-pressed="false" disabled>Preview day / 60s</button>
+        <output id="day-preview-progress" aria-live="off"></output>
+        <p id="day-preview-status" role="status">One cycle from the selected hour. Pause freezes the preview. Stop saves the nearest 15 minutes.</p>
+      </div>
       <p id="evidence-summary" class="evidence-summary" aria-live="polite"></p>
     </details>
     <footer>

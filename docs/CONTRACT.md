@@ -136,6 +136,28 @@ enabling reduced motion finishes any pending parameter transition; hidden tabs a
 reference modals freeze an existing transition until resumed. The animation clock
 continues to describe cloud/water time, not the selected scene hour.
 
+### Opt-in parameter cycles
+
+`player.startParameterCycle(name, durationSeconds = 60)` drives one complete,
+forward, constant-rate cycle of a wrapped float parameter from its selected value.
+It first finishes the ordinary parameter transition. Other parameters remain fixed.
+The existing active-time loop advances the cycle and uploads its value in the
+normal draw; no additional animation loop, per-frame redraw or URL update is needed.
+Starting a cycle does not itself unpause the player; an explicit UI action may do so.
+
+`parametercyclechange` emits `{ name, start, value, elapsed, duration, finished }`
+after a changed cycle is drawn. Completion holds the original value and emits
+`finished: true` once. `player.stopParameterCycle()` cancels at the current value
+and emits `null`; `setParameters()` also cancels an existing cycle. Pausing,
+reduced-motion changes and suspension freeze cycle progress without resetting it.
+These methods do not change playback behavior unless a scene opts in.
+
+`mountControls()` returns `{ state, setState(next, options) }`. State is a copy.
+`setState` always validates the semantic grid; `{ notify: false, writeURL: false }`
+updates the controls without calling the resolver or rewriting browser history.
+Fuji 2 uses that option for preview feedback, while its shader receives continuous
+hours. Stop/completion synchronizes the renderer and URL to the valid 15-minute grid.
+
 ### Controls and presets
 
 Controls use `enum` (options/default) or `number` (min/max/step/default). `label` is

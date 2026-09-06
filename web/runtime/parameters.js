@@ -92,10 +92,12 @@ export class ParameterTransition {
     this.target = structuredClone(this.values);
     this.duration = 0;
     this.elapsed = 0;
+    this.cycle = null;
   }
   set(values, duration = 0) {
     validateParameters(this.schema, values);
     if (!Number.isFinite(duration) || duration < 0) throw new Error("Invalid transition duration.");
+    this.cycle = null;
     this.start = structuredClone(this.values);
     this.target = structuredClone(values);
     this.elapsed = 0;
@@ -106,7 +108,29 @@ export class ParameterTransition {
     this.values = structuredClone(this.target);
     this.duration = 0;
   }
+  startCycle(name, duration) {
+    const field = this.schema[name];
+    if (!field || field.type !== "float" || !field.wrap) throw new Error("A cycle requires a wrapped float parameter.");
+    if (!Number.isFinite(duration) || duration <= 0) throw new Error("Cycle duration must be positive.");
+    this.finish();
+    this.cycle = { name, start: this.values[name], value: this.values[name], elapsed: 0, duration, finished: false };
+  }
+  stopCycle() {
+    this.cycle = null;
+  }
   advance(delta) {
+    if (this.cycle) {
+      if (!Number.isFinite(delta) || delta < 0) throw new Error("Cycle delta must be finite and non-negative.");
+      if (this.cycle.finished || delta === 0) return;
+      const { name, start, duration } = this.cycle;
+      const { min, max } = this.schema[name];
+      const elapsed = Math.min(duration, this.cycle.elapsed + delta);
+      const finished = elapsed === duration;
+      const value = finished ? start : min + ((start - min + (max - min) * elapsed / duration) % (max - min));
+      this.values[name] = this.target[name] = value;
+      this.cycle = { name, start, value, elapsed, duration, finished };
+      return;
+    }
     if (!this.duration) return;
     this.elapsed += delta;
     if (this.elapsed >= this.duration) return this.finish();

@@ -86,6 +86,7 @@ class ShaderPlayer extends EventTarget {
     this.samples = 0;
     this.cost = 0;
     this.lastSecond = -1;
+    this.lastCycle = null;
     this.pointer = { x: 0, y: 0, vx: 0, vy: 0, targetX: 0, targetY: 0 };
     this.listeners = new AbortController();
     const options = { signal: this.listeners.signal };
@@ -166,6 +167,25 @@ class ShaderPlayer extends EventTarget {
     this.draw();
   }
 
+  startParameterCycle(name, duration = 60) {
+    if (!this.parameters) throw new Error("Parameter cycles require contract v2.");
+    if (this.disposed || this.contextLost) throw new Error("Player is unavailable.");
+    this.parameters.startCycle(name, duration);
+    this.draw();
+  }
+
+  stopParameterCycle() {
+    this.parameters?.stopCycle();
+    this.notifyParameterCycle();
+  }
+
+  notifyParameterCycle() {
+    const cycle = this.parameters?.cycle || null;
+    if (cycle === this.lastCycle) return;
+    this.lastCycle = cycle;
+    this.dispatchEvent(new CustomEvent("parametercyclechange", { detail: cycle ? { ...cycle } : null }));
+  }
+
   sync() {
     cancelAnimationFrame(this.frame);
     this.previous = performance.now();
@@ -197,6 +217,7 @@ class ShaderPlayer extends EventTarget {
       this.lastSecond = second;
       this.dispatchEvent(new CustomEvent("timechange", { detail: second }));
     }
+    this.notifyParameterCycle();
   }
 
   resize() {
