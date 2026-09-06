@@ -11,12 +11,11 @@ const root = new URL("../", import.meta.url);
 const read = path => readFile(new URL(path, root));
 const json = async path => JSON.parse(await read(path));
 
-test("Fuji 1 rendering remains identical to preserved fuji-v1 version", async () => {
+test("Fuji 1 shader, profiles and resolver remain identical to preserved fuji-v1 version", async () => {
   const hashes = {
     "glsl/fuji-mountain/main.glsl": "2bca1e184f551acacc887b4829cdbfe7cf07868864521b755e59a9fdbf869f15",
     "glsl/fuji-mountain/profiles.json": "57d38818497484d7be4e03946635bcf21e3f6879843806eb73b6b8b41a98fff6",
     "scenes/fuji-mountain/resolve.js": "766852f57a2e255938f72028a7dacdb25e3a3430d16f240c6e9e974fe6fca252",
-    "web/demos/fuji-mountain/app.js": "c0872f475a188ed4e9e0547e59555b91d4b67ffc9e58ce1030cad10b8646e736",
   };
   for (const [file, hash] of Object.entries(hashes)) assert.equal(createHash("sha256").update(await read(file)).digest("hex"), hash, file);
 });

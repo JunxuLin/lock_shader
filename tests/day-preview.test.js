@@ -1,12 +1,26 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { ParameterTransition } from "../web/runtime/parameters.js";
-import { formatSceneHour } from "../web/demos/fuji2/day-preview.js";
+import { formatSceneHour } from "../web/runtime/day-preview.js";
 
 const schema = {
   uSunHour: { type: "float", min: 0, max: 24, wrap: true, default: 7.5 },
   uSnowLine: { type: "float", min: 0, max: 4, default: 1.45 },
 };
+
+test("both Fuji demos wire the shared day-preview controller and styles", async () => {
+  for (const id of ["fuji-mountain", "fuji2"]) {
+    const root = new URL(`../web/demos/${id}/`, import.meta.url);
+    const html = await readFile(new URL("index.html", root), "utf8");
+    const app = await readFile(new URL("app.js", root), "utf8");
+    assert.match(html, /id="day-preview"/);
+    assert.match(html, /href="\.\.\/\.\.\/runtime\/day-preview\.css"/);
+    assert.match(app, /import \{ mountDayPreview \} from "\.\.\/\.\.\/runtime\/day-preview\.js"/);
+    assert.match(app, /dayPreview = mountDayPreview\(player, scene, controls,/);
+    assert.match(app, /dayPreview\?\.cancel\(\)/);
+  }
+});
 
 test("one day advances at a constant rate and completes once after 60 active seconds", () => {
   const parameters = new ParameterTransition(schema);

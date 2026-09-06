@@ -3,7 +3,7 @@ export function formatSceneHour(hour) {
   return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
 }
 
-export function mountDayPreview(player, scene, controls, updateReferences) {
+export function mountDayPreview(player, scene, controls, onPreviewStateChange) {
   const button = document.querySelector("#day-preview");
   const progress = document.querySelector("#day-preview-progress");
   const status = document.querySelector("#day-preview-status");
@@ -56,7 +56,7 @@ export function mountDayPreview(player, scene, controls, updateReferences) {
     if (controls.state.timeOfDay !== hour) {
       const state = { ...controls.state, timeOfDay: hour };
       controls.setState(state, { notify: false, writeURL: false });
-      updateReferences(state);
+      onPreviewStateChange(state);
     }
     timeOutput.value = formatSceneHour(cycle.value);
     progress.value = `${formatSceneHour(cycle.value)} / ${Math.floor(cycle.elapsed)} of 60s`;

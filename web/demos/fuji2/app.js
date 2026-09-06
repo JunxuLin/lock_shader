@@ -5,7 +5,7 @@ import { stateFromURL } from "../../runtime/parameters.js";
 import { mountControls } from "../../runtime/controls.js";
 import { resolveFujiParameters } from "../../../scenes/fuji2/resolve.js";
 import { mountReferences } from "./references.js";
-import { mountDayPreview } from "./day-preview.js";
+import { mountDayPreview } from "../../runtime/day-preview.js";
 
 const motion = document.querySelector("#motion");
 const clean = document.querySelector("#clean");

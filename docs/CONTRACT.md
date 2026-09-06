@@ -155,7 +155,8 @@ These methods do not change playback behavior unless a scene opts in.
 `mountControls()` returns `{ state, setState(next, options) }`. State is a copy.
 `setState` always validates the semantic grid; `{ notify: false, writeURL: false }`
 updates the controls without calling the resolver or rewriting browser history.
-Fuji 2 uses that option for preview feedback, while its shader receives continuous
+Both Fuji demos use the shared `web/runtime/day-preview.js` controller and
+`day-preview.css` stylesheet. They use that option for preview feedback, while their shaders receive continuous
 hours. Stop/completion synchronizes the renderer and URL to the valid 15-minute grid.
 
 ### Controls and presets

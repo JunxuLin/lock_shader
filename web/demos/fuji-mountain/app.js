@@ -3,6 +3,7 @@ import { bindFullscreen, bindPlayback, showError, startClock } from "../../runti
 import { loadScene } from "../../runtime/contract.js";
 import { stateFromURL } from "../../runtime/parameters.js";
 import { mountControls } from "../../runtime/controls.js";
+import { mountDayPreview } from "../../runtime/day-preview.js";
 import { resolveFujiParameters } from "../../../scenes/fuji-mountain/resolve.js";
 
 const motion = document.querySelector("#motion");
@@ -33,10 +34,16 @@ async function start() {
   const resolve = state => resolveFujiParameters(state, scene, profiles);
   const initial = stateFromURL(scene.controls, new URL(location.href)).state;
   const player = await createPlayer(document.querySelector("canvas"), manifestUrl, { parameters: resolve(initial) });
-  mountControls(document.querySelector("#scene-controls"), scene, (state, options) => {
-    player.setParameters(resolve(state), options);
+  const updateSceneView = state => {
     document.querySelector(".clock-note").textContent = `${state.season.toUpperCase()} / ${state.weather.toUpperCase()} / SCENE LIGHT`;
+  };
+  let dayPreview;
+  const controls = mountControls(document.querySelector("#scene-controls"), scene, (state, options) => {
+    dayPreview?.cancel();
+    player.setParameters(resolve(state), options);
+    updateSceneView(state);
   });
+  dayPreview = mountDayPreview(player, scene, controls, updateSceneView);
   document.querySelector("#download").href = player.sourceUrl.href;
   bindPlayback(player, motion, document.querySelector("#motion-status"), document.querySelector("#motion-time"));
   const syncDialog = () => player.setSuspended("reference", dialog.open);

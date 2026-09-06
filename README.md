@@ -62,7 +62,7 @@ immediately. Invalid URL values show a warning and use the relevant default.
 The astronomical lighting and seasonal vegetation are artistic approximations,
 not a date/location-based solar simulation.
 
-**Fuji 2 day preview:** open **Season, weather & light**, then select
+**Day preview (Fuji 1 and Fuji 2):** open **Season, weather & light**, then select
 **Preview day / 60s**. One complete 24-hour cycle starts at the selected scene hour
 and advances at a constant rate: one real second represents 24 scene minutes.
 Clouds, water and the system clock keep their normal speed. The scene hour moves
@@ -80,11 +80,12 @@ preview stops/completes or the user changes a setting.
 ## Two Fuji editions
 
 The annotated tag **`fuji-v1`** preserves the complete original configurable release
-(`f00a4f5`). Fuji 1 keeps its existing `fuji-mountain` URL, shader, visual profiles,
-resolver and player adapter; only its gallery label changes. Fuji 2 has separate
+(`f00a4f5`). Fuji 1 keeps its existing `fuji-mountain` URL, shader, visual profiles
+and resolver. Its web controls can gain shared features such as day preview without
+changing the original landscape. Fuji 2 has separate
 `glsl/fuji2`, `scenes/fuji2` and `web/demos/fuji2` folders, so subsequent artistic
-changes do not replace Fuji 1. Shared runtime additions are opt-in; Fuji 1 keeps its
-original playback behavior.
+changes do not replace Fuji 1. Both editions use the same optional day-preview
+controller and stylesheet in `web/runtime/`; the tag retains the original full snapshot.
 
 Fuji 2's **References** panel shows licensed photographs, dates when available,
 observed features, source links and limits. The settings panel explicitly flags
@@ -100,6 +101,12 @@ summit rim, downslope snow/rock breakup, bare summer upper slopes, patchy
 deciduous foliage rather than an entirely orange mountain, lower distant ridges,
 blue atmospheric separation, a populated shoreline and stronger broken water
 reflections. Still photographs guide appearance, not animation speed.
+
+The editions still use the same central composition, single-pass heightfield
+rendering, projected noise clouds and ray-traced lake reflections. Fuji 2 is an
+incremental reference-informed revision, not a photorealistic rebuild. Lower
+background ridges and patchy autumn vegetation are more apparent than the subtle
+winter material changes; compare matching presets and scene hours.
 
 **Evidence gaps:** the set does not establish a winter capture, spring conditions,
 fog or full overcast. Those settings are explicitly marked as inferred. The sunset
