@@ -46,9 +46,22 @@ dialog p { font-size: 12px; line-height: 1.7; color: #bac4cb; margin-bottom: 0; 
 dialog a { color: #e3d0b2; text-underline-offset: 3px; }
 dialog .technique { color: #93a4b3; font-size: 11px; }
 #error { position: fixed; bottom: 110px; left: 5%; right: 5%; max-height: 45vh; overflow: auto; padding: 20px; background: #291c1cf0; color: #ffd4bc; border: 1px solid #f0947280; border-radius: 12px; font: 12px/1.6 monospace; white-space: pre-wrap; }
+.scene-settings { position: absolute; top: 85px; right: 4%; width: 270px; max-height: calc(100dvh - 210px); overflow: auto; pointer-events: auto; border: 1px solid #ffffff26; border-radius: 14px; background: #132436bd; backdrop-filter: blur(20px); }
+.scene-settings summary { cursor: pointer; padding: 14px 18px; font-size: 11px; letter-spacing: .04em; }
+.scene-settings summary:focus-visible { outline: 2px solid #e8d6bb; outline-offset: -3px; }
+#scene-controls { padding: 0 18px 16px; }
+.scene-fields { display: grid; gap: 14px; }
+.scene-fields label { display: grid; gap: 7px; font-size: 11px; color: #c9d3dc; }
+.scene-fields select { min-width: 0; width: 100%; border: 1px solid #ffffff25; background: #203348; color: #f4f1eb; border-radius: 7px; padding: 8px; font: inherit; }
+.scene-fields input { width: 100%; margin: 4px 0; accent-color: #e8d6bb; }
+.scene-fields output { font-variant-numeric: tabular-nums; }
+.scene-hint, .scene-notice { font-size: 10px; line-height: 1.6; color: #aebdca; margin: 12px 0 0; }
+.scene-notice { color: #ffd1a1; }
+.scene-notice:empty { display: none; }
 @media (max-width: 650px) {
   header { top: 25px; left: 24px; right: 24px; }
   .series { display: none; }
+  .scene-settings { top: 58px; right: 22px; width: min(270px, calc(100% - 44px)); z-index: 2; }
   .clock { top: 14%; }
   time { font-size: 86px; }
   .clock p { font-size: 13px; }

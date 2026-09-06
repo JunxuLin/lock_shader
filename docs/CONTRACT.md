@@ -1,4 +1,4 @@
-# Shader contract v1
+# Shader contracts v1 and v2
 
 The GLSL is the portable effect. The browser is one host, not part of the shader.
 No shared GLSL includes, bundler, textures, buffer passes or external services are
@@ -93,3 +93,64 @@ Consider explicit texture channel descriptors, bounded parameter schemas, qualit
 tiers, deterministic capture controls and multi-pass render graphs only when a
 scene needs them. Texture color spaces, buffer sizes, feedback lifetimes and
 resource disposal would need explicit contracts. Do not silently extend v1.
+
+## Contract v2: configurable scenes
+
+v1 remains supported unchanged (Suspended Glass). Fuji uses v2, which adds
+`controls`, `presets`, `parameters` and `transitionSeconds` to its manifest.
+
+The separation is:
+
+```text
+HTML controls / URL -> complete semantic state
+                   -> pure scene resolver + data profiles
+                   -> complete typed uniform set
+                   -> player transitions -> GLSL
+```
+
+`scenes/fuji-mountain/resolve.js` has no DOM/WebGL dependencies; it recomputes the
+entire result from state and `profiles.json`. Season owns snow and vegetation,
+weather owns clouds/fog/wind, and scene time owns the sun hour. Selection order
+does not affect output. The player knows nothing about seasons or weather.
+
+### Parameters
+
+Each `uCapitalizedName` declares `type` (`float` or `vec3`), finite `min`/`max`,
+and a `default` within those bounds. vec3 bounds apply to each component.
+All color vectors are **linear RGB**, not CSS/sRGB colors. The host injects the
+declarations and defines `LOCK_SHADER_PARAMETERS` before compiling source.
+
+`float` fields may set `wrap: true` to interpolate by the shortest path over
+`[min,max)`. Fuji's `uSunHour` crosses 23:00 -> 01:00 through midnight, not noon.
+The shader derives a normalized light direction and daylight from this hour,
+avoiding interpolation of opposing direction vectors.
+
+`createPlayer(canvas, manifestUrl, { parameters })` validates and installs initial
+values before the first draw. `player.setParameters(fullSet, { immediate: false })`
+validates the entire set atomically. Unknown/missing/out-of-range values throw.
+Transitions use smoothstep easing for `transitionSeconds` (0..10 seconds), retain
+continuity when retargeted, and never reset `iTime`. Colors interpolate in linear RGB.
+
+When paused/reduced-motion/suspended, new settings apply immediately. Pausing or
+enabling reduced motion finishes any pending parameter transition; hidden tabs and
+reference modals freeze an existing transition until resumed. The animation clock
+continues to describe cloud/water time, not the selected scene hour.
+
+### Controls and presets
+
+Controls use `enum` (options/default) or `number` (min/max/step/default). `label` is
+UI metadata. Presets have an id, label and a complete semantic `values` object.
+The generic UI renders these declarations; scenes without controls get no panel.
+No executable expressions or arbitrary shader code are accepted in metadata.
+
+URL state stores only semantic values, preserving other query keys and hashes.
+Missing fields use defaults. Invalid fields show a visible notice and use their
+individual defaults. Browser history restoration updates both UI and renderer.
+Actual system clock, selected scene time, and active `iTime` are independent.
+
+### Standalone source
+
+v2 sources retain typed constants inside `#ifndef LOCK_SHADER_PARAMETERS` for direct
+Shadertoy use. The website injects uniforms instead. Raw GLSL download shows the
+default scene, not the current URL selection; edit fallback constants to customize
+it outside this host. No channels or textures are introduced by v2.

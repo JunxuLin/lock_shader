@@ -4,7 +4,7 @@ Original GLSL lockscreen studies with a lightweight, framework-free WebGL 2 gall
 
 **Gallery:** https://JunxuLin.github.io/lock_shader/
 
-- **Mount Fuji:** procedural terrain, snow, drifting clouds, shore mist and reflected lake waves.
+- **Mount Fuji:** configurable seasons, clear/cloudy/fog weather and scene time, with snow, drifting clouds and reflected lake waves.
 - **Suspended Glass:** unofficial Microsoft logo study with extruded glass, spring entrance and pointer parallax.
 
 These are visual experiments, not operating-system locks. The Fuji landscape is
@@ -18,6 +18,7 @@ glsl/
   fuji-mountain/
     main.glsl                 Standalone Shadertoy-compatible effect
     scene.json                Metadata + runtime contract
+    profiles.json             Season/weather visual profiles (Fuji)
   ms-logo/
     main.glsl
     scene.json
@@ -29,6 +30,7 @@ web/
     fuji-mountain/            HTML/CSS + thin UI adapter + licensed photo reference
     ms-logo/                  HTML/CSS + thin UI adapter
 docs/CONTRACT.md               Uniforms, metadata, lifecycle and extension rules
+scenes/fuji-mountain/resolve.js Pure state-to-parameter mapping (no DOM/WebGL)
 scripts/build.mjs             Stages only public files into _site/
 tests/                        Node built-in contract tests
 .github/workflows/pages.yml   Validate, build and deploy
@@ -36,7 +38,25 @@ tests/                        Node built-in contract tests
 
 GLSL never depends on DOM, photography or per-demo JavaScript. Each demo keeps its
 visual identity while sharing compilation, animation, pause states, reduced-motion
-handling, pointer smoothing and resolution budgets. See [the v1 contract](docs/CONTRACT.md).
+handling, pointer smoothing and resolution budgets. See [the v1/v2 contract](docs/CONTRACT.md).
+
+## Configurable Fuji
+
+Open **Season, weather & light** in the Fuji demo. Choose spring/summer/autumn/winter,
+clear/cloudy/fog, or a scene time from 00:00 to 24:00. Presets include winter morning,
+spring mist, summer noon, autumn sunset and winter night. Rain/snow particles are
+not implemented; snow cover is independent of weather.
+
+Selections update the URL, so copy the address to share:
+
+`web/demos/fuji-mountain/?season=winter&weather=clear&timeOfDay=7.5`
+
+The HTML clock still shows local system time. The landscape holds the selected
+lighting while clouds/water animate independently. Parameter changes ease over
+2.5 seconds without restarting animation; paused or reduced-motion players update
+immediately. Invalid URL values show a warning and use the relevant default.
+The astronomical lighting and seasonal vegetation are artistic approximations,
+not a date/location-based solar simulation.
 
 ## Local preview
 
@@ -72,7 +92,7 @@ with DPR caps and adaptive pixel budgets; these are not performance guarantees.
 ## GitHub Pages
 
 In **Settings > Pages > Build and deployment > Source**, choose **GitHub Actions**.
-Pushes to `main` run the contract tests, stage `index.html`, `web/` and `glsl/`, and
+Pushes to `main` run the contract tests, stage `index.html`, `web/`, `glsl/`, `scenes/`, and
 deploy that artifact. Pull requests validate/build but do not deploy.
 If Pages has not been enabled, select the source once and rerun the workflow.
 

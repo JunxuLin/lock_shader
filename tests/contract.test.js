@@ -33,7 +33,7 @@ for (const id of ids) {
 test("contract rejects invalid metadata and unsupported features", async () => {
   const valid = JSON.parse(await read("glsl/fuji-mountain/scene.json"));
   const invalid = [
-    { contractVersion: 2 }, { id: "../escape" }, { source: "https://example.com/shader" },
+    { contractVersion: 3 }, { id: "../escape" }, { source: "https://example.com/shader" },
     { initialTime: -1 }, { posterTime: 0 }, { pointer: "true" }, { title: "" }, { tags: [null] },
     { performance: { ...valid.performance, fps: 0 } },
     { performance: { ...valid.performance, minPixels: valid.performance.maxPixels + 1 } },

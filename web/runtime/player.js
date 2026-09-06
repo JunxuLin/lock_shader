@@ -1,6 +1,7 @@
 import { loadScene } from "./contract.js";
+import { ParameterTransition } from "./parameters.js";
 
-function createProgram(gl, source) {
+function createProgram(gl, source, scene) {
   const shaders = [];
   const program = gl.createProgram();
   try {
@@ -15,6 +16,8 @@ function createProgram(gl, source) {
         uniform vec3 iResolution;
         uniform float iTime;
         uniform vec4 iMouse;
+        ${scene.contractVersion === 2 ? "#define LOCK_SHADER_PARAMETERS\n" + Object.entries(scene.parameters)
+          .map(([name, field]) => `uniform ${field.type} ${name};`).join("\n") : ""}
         out vec4 outputColor;
         #line 1
         ${source}
@@ -42,7 +45,7 @@ function createProgram(gl, source) {
   }
 }
 
-export async function createPlayer(canvas, manifestUrl) {
+export async function createPlayer(canvas, manifestUrl, options = {}) {
   const scene = await loadScene(manifestUrl);
   const sourceUrl = new URL(scene.source, manifestUrl);
   const response = await fetch(sourceUrl, { cache: "no-store" });
@@ -50,18 +53,24 @@ export async function createPlayer(canvas, manifestUrl) {
   const source = await response.text();
   const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, depth: false });
   if (!gl) throw new Error("WebGL 2 is unavailable. Enable browser hardware acceleration.");
-  const program = createProgram(gl, source);
-  return new ShaderPlayer(canvas, gl, program, scene, sourceUrl);
+  const parameters = scene.contractVersion === 2 ? new ParameterTransition(scene.parameters) : null;
+  if (options.parameters) {
+    if (!parameters) throw new Error("Parameters require contract v2.");
+    parameters.set(options.parameters);
+  }
+  const program = createProgram(gl, source, scene);
+  return new ShaderPlayer(canvas, gl, program, scene, sourceUrl, parameters);
 }
 
 class ShaderPlayer extends EventTarget {
-  constructor(canvas, gl, program, scene, sourceUrl) {
+  constructor(canvas, gl, program, scene, sourceUrl, parameters) {
     super();
     this.canvas = canvas;
     this.gl = gl;
     this.program = program;
     this.scene = scene;
     this.sourceUrl = sourceUrl;
+    this.parameters = parameters;
     this.motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
     this.paused = this.motionPreference.matches;
     this.pauseReason = this.paused ? "reduced-motion" : "user";
@@ -82,6 +91,7 @@ class ShaderPlayer extends EventTarget {
     const options = { signal: this.listeners.signal };
     gl.useProgram(program);
     this.uniforms = Object.fromEntries(["iTime", "iResolution", "iMouse"].map(name => [name, gl.getUniformLocation(program, name)]));
+    this.parameterUniforms = Object.fromEntries(Object.keys(scene.parameters || {}).map(name => [name, gl.getUniformLocation(program, name)]));
     window.addEventListener("resize", () => this.resize(), options);
     document.addEventListener("visibilitychange", () => this.sync(), options);
     window.addEventListener("pageshow", () => this.sync(), options);
@@ -89,6 +99,7 @@ class ShaderPlayer extends EventTarget {
       this.paused = this.motionPreference.matches;
       this.pauseReason = this.paused ? "reduced-motion" : "user";
       if (this.paused) {
+        this.parameters?.finish();
         this.time = Math.max(this.time, scene.posterTime);
         Object.keys(this.pointer).forEach(key => { this.pointer[key] = 0; });
         this.draw();
@@ -125,6 +136,10 @@ class ShaderPlayer extends EventTarget {
 
   toggle() {
     this.paused = !this.paused;
+    if (this.paused) {
+      this.parameters?.finish();
+      this.draw();
+    }
     this.pauseReason = "user";
     this.sync();
   }
@@ -143,6 +158,14 @@ class ShaderPlayer extends EventTarget {
     this.sync();
   }
 
+  setParameters(values, { immediate = false } = {}) {
+    if (!this.parameters) throw new Error("Parameters require contract v2.");
+    if (this.disposed || this.contextLost) throw new Error("Player is unavailable.");
+    const duration = immediate || !this.state.playing || this.motionPreference.matches ? 0 : this.scene.transitionSeconds;
+    this.parameters.set(values, duration);
+    this.draw();
+  }
+
   sync() {
     cancelAnimationFrame(this.frame);
     this.previous = performance.now();
@@ -156,6 +179,13 @@ class ShaderPlayer extends EventTarget {
     const { gl, canvas, uniforms } = this;
     gl.uniform3f(uniforms.iResolution, canvas.width, canvas.height, 1);
     gl.uniform1f(uniforms.iTime, this.time);
+    if (this.parameters) {
+      for (const [name, value] of Object.entries(this.parameters.values)) {
+        const location = this.parameterUniforms[name];
+        if (this.scene.parameters[name].type === "vec3") gl.uniform3fv(location, value);
+        else gl.uniform1f(location, value);
+      }
+    }
     // Contract v1 uses damped hover, not Shadertoy's click-origin mouse semantics.
     gl.uniform4f(uniforms.iMouse,
       (this.pointer.x * 0.5 + 0.5) * canvas.width,
@@ -185,6 +215,7 @@ class ShaderPlayer extends EventTarget {
     const delta = Math.max(0, (now - this.previous) / 1000);
     this.previous = now;
     this.time += delta;
+    this.parameters?.advance(delta);
     const p = this.pointer;
     const integrationTime = Math.min(delta, 0.1);
     const steps = Math.max(1, Math.ceil(integrationTime * 120));
