@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "purpose": "Visual references, not ground truth for arbitrary season/weather/hour combinations. Metadata and visible image content were both inspected. Dates are source metadata, not independently authenticated observations.",
+  "modifications": "Resized JPEG previews only. Original composition, color processing, watermarks and credit strips are retained. No photographs are sampled by the shader.",
+  "items": [
+    {
+      "id": "snowy-clear",
+      "file": "snowy-clear-kawaguchi.jpg",
+      "title": "Mount Fuji from Lake Kawaguchi",
+      "author": "Subramaniam K V",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mount_Fuji_from_Lake_Kawaguchi.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Mount_Fuji_from_Lake_Kawaguchi.jpg",
+      "captured": "Capture date and local hour not established",
+      "covers": { "seasons": [], "weather": ["clear"], "times": ["day"] },
+      "observations": "Broad snowy Fuji with an uneven summit, exposed dark channels, blue atmospheric foothills, shoreline buildings and broken sunlit lake ripples.",
+      "limitations": "Snow is visible, but the source does not establish winter. Sun flare, exposure and this particular viewpoint are not reproduced. Daylight is visible; exact hour is unknown."
+    },
+    {
+      "id": "summer-red",
+      "file": "summer-red-fuji-yamanaka.jpg",
+      "title": "Mount Fuji from Lake Yamanaka 1995-7-30",
+      "author": "Alpsdake",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mount_Fuji_from_Lake_Yamanaka_1995-7-30.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/70/Mount_Fuji_from_Lake_Yamanaka_1995-7-30.jpg",
+      "captured": "1995-07-30; local hour unspecified",
+      "covers": { "seasons": ["summer"], "weather": ["clear"], "times": [] },
+      "observations": "Predominantly bare reddish-purple upper volcanic slopes with only tiny pale remnants, dark lower woodland, a developed shoreline and a darker rippled mountain reflection.",
+      "limitations": "Lake Yamanaka is a different viewpoint, so its silhouette is not transferred literally. The red cast is illumination or photographic rendering, not a neutral rock-color measurement. This is one summer date, not a guarantee of snow-free summers."
+    },
+    {
+      "id": "autumn-snow",
+      "file": "autumn-snow-kawaguchi.jpg",
+      "title": "Autumn leaf color and Mount Fuji from Lake Kawaguchi",
+      "author": "Alpsdake",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Autumn_leaf_color_and_Mount_Fuji_from_Lake_Kawaguchi.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Autumn_leaf_color_and_Mount_Fuji_from_Lake_Kawaguchi.jpg",
+      "captured": "2015-10-26 08:25:38; timezone unspecified",
+      "covers": { "seasons": ["autumn"], "weather": ["clear"], "times": ["morning"] },
+      "observations": "A small irregular summit snow cap, hazy largely bare slopes, and red/orange foreground leaves mixed with dark evergreen shoreline vegetation under blue sky.",
+      "limitations": "Near-camera red maple leaves do not imply that the entire mountain turns red. The shader uses patchy lower-elevation foliage, not this exact tree or composition. The metadata hour is morning, not proof of dawn."
+    },
+    {
+      "id": "autumn-sunset",
+      "file": "autumn-sunset-kawaguchi.jpg",
+      "title": "Japan (16230424045) / autumn sunset at Kawaguchiko",
+      "author": "Moyan Brenn",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Japan_(16230424045).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Japan_%2816230424045%29.jpg",
+      "captured": "2014-11-19 09:29 in metadata; description says sunset",
+      "covers": { "seasons": ["autumn"], "weather": [], "times": ["evening"] },
+      "observations": "Peach-colored cloud edges and lake highlights contrast with blue-violet mountain layers; the summit snow cap is small and shoreline buildings remain visible.",
+      "limitations": "Sunset is supported by the source description, but the timestamp conflicts with a local sunset interpretation. Timezone is unverified. Color processing and softened water are not a radiometric or wave-motion measurement. The original credit strip is retained."
+    },
+    {
+      "id": "summer-clouds",
+      "file": "summer-clouds-kawaguchi.jpg",
+      "title": "Sky, Cloud and Mt. Fuji (14933845455)",
+      "author": "Yoshikazu TAKADA",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sky,_Cloud_and_Mt._Fuji_(14933845455).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Sky%2C_Cloud_and_Mt._Fuji_%2814933845455%29.jpg",
+      "captured": "2014-08-15 16:23; timezone unspecified",
+      "covers": { "seasons": ["summer"], "weather": ["clear"], "times": [] },
+      "observations": "Mostly snow-free volcanic slopes, green lower ridges, a small summit cloud cap, large soft high cloud against blue sky, and fine ripples on a blue-green lake.",
+      "limitations": "This shows broken cloud and considerable blue sky, not full overcast or fog. No cloud speed can be inferred from a still. The shader does not reconstruct its cloud cap, boats, park or lens composition."
+    },
+    {
+      "id": "summer-night",
+      "file": "summer-night-kawaguchi.jpg",
+      "title": "Mount Fuji at night, Kawaguchiko",
+      "author": "Sergiy Galyonkin",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mount_Fuji_at_night,_Kawaguchiko.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/99/Mount_Fuji_at_night%2C_Kawaguchiko.jpg",
+      "captured": "2024-07-07 20:05:43; timezone unspecified",
+      "covers": { "seasons": ["summer"], "weather": [], "times": ["night"] },
+      "observations": "A dark, nearly snow-free mountain silhouette behind town lights under a luminous blue evening/night sky; vehicle light trails are visible.",
+      "limitations": "This is a town-facing elevated view, not a lakeside winter midnight scene. Light trails demonstrate exposure effects. It does not validate the shader's moon, stars, winter snow or unaided-eye night brightness."
+    }
+  ]
+}

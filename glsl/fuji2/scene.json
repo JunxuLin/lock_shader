@@ -1,15 +1,15 @@
 {
   "contractVersion": 2,
-  "id": "fuji-mountain",
-  "title": "Fuji 1",
-  "description": "Preserved stylized edition: configurable seasons, weather and light. A procedural interpretation, not a photographic reconstruction.",
+  "id": "fuji2",
+  "title": "Fuji 2",
+  "description": "A separate photographic-reference study with revised terrain, snow, atmosphere and water. View source photographs and evidence gaps; this remains a procedural reconstruction.",
   "source": "main.glsl",
   "initialTime": 24,
   "posterTime": 24,
   "pointer": false,
   "performance": { "fps": 30, "maxPixels": 1500000, "minPixels": 650000, "maxDpr": 1.5 },
-  "tags": ["Landscape", "Water", "Slow drift"],
-  "attribution": "Photo reference: Subramaniam K V, CC BY 3.0. See the demo's reference panel. The shader does not sample this image.",
+  "tags": ["Photo references", "Reconstruction", "Slow drift"],
+  "attribution": "Photographic references are individually attributed in the demo reference panel and assets/references.json. Photographs are not sampled by the shader.",
   "transitionSeconds": 2.5,
   "controls": {
     "season": { "type": "enum", "label": "Season", "options": ["spring", "summer", "autumn", "winter"], "default": "winter" },
@@ -25,11 +25,11 @@
   ],
   "parameters": {
     "uSunHour": { "type": "float", "min": 0, "max": 24, "wrap": true, "default": 7.5 },
-    "uSnowLine": { "type": "float", "min": 0, "max": 4, "default": 1.15 },
+    "uSnowLine": { "type": "float", "min": 0, "max": 4, "default": 1.45 },
     "uSnowCoverage": { "type": "float", "min": 0, "max": 1, "default": 1 },
-    "uFoliageColor": { "type": "vec3", "min": 0, "max": 1, "default": [0.04, 0.08, 0.095] },
+    "uFoliageColor": { "type": "vec3", "min": 0, "max": 1, "default": [0.045, 0.062, 0.054] },
     "uCloudCoverage": { "type": "float", "min": 0, "max": 1, "default": 0.22 },
-    "uFogDensity": { "type": "float", "min": 0, "max": 1, "default": 0.1 },
+    "uFogDensity": { "type": "float", "min": 0, "max": 1, "default": 0.14 },
     "uWind": { "type": "float", "min": 0, "max": 2, "default": 0.85 }
   }
 }

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#182b40">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <title>Fuji 2 / A photographic-reference study</title>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <canvas id="landscape" aria-label="Procedural Fuji landscape with configurable snow and light, drifting clouds and animated lake ripples"></canvas>
+  <div class="scrim" aria-hidden="true"></div>
+  <main id="interface">
+    <header>
+      <a class="identity" href="../../" aria-label="Back to shader gallery"><svg viewBox="0 0 32 22" aria-hidden="true"><path d="m2 19 11-15 4 1 13 14M10 8l4 2 3-2 5 5"/></svg><span>FUJI 2 / FIELD STUDY</span></a>
+      <span class="series">PROCEDURAL RECONSTRUCTION / NOT A PHOTOGRAPH</span>
+    </header>
+    <section class="clock" aria-label="Local date and time">
+      <svg class="lock" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="10" width="12" height="10" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <p id="date"></p>
+      <time id="time"></time>
+      <span class="clock-note">A MOMENT BEFORE MORNING</span>
+    </section>
+    <details class="scene-settings">
+      <summary>Season, weather &amp; light</summary>
+      <div id="scene-controls"></div>
+      <p id="evidence-summary" class="evidence-summary" aria-live="polite"></p>
+    </details>
+    <footer>
+      <div class="location"><span class="eyebrow">PROCEDURAL STUDY / NOT LIVE FOOTAGE</span><h1>Fuji 2</h1><p>Inspired by Lake Kawaguchi <span>·</span> <a href="../fuji-mountain/">Compare Fuji 1</a></p></div>
+      <div class="right">
+        <div class="live-label" data-state="loading"><span class="motion-dot" aria-hidden="true"></span><span id="motion-status" role="status">LOADING SHADER</span><span id="motion-time" aria-hidden="true">00:00</span></div>
+        <nav aria-label="Landscape controls">
+          <button id="motion" type="button" aria-pressed="false" disabled>Pause</button>
+          <button id="clean" type="button" aria-pressed="false" title="Hide interface (H)">Hide UI</button>
+          <button id="fullscreen" type="button" title="Fullscreen (F)">Fullscreen</button>
+          <button id="reference" type="button">References <span aria-hidden="true">↗</span></button>
+          <a id="download" href="../../../glsl/fuji2/main.glsl" download>GLSL <span aria-hidden="true">↓</span></a>
+        </nav>
+      </div>
+    </footer>
+  </main>
+  <button id="restore" type="button" hidden>Show controls</button>
+  <dialog id="reference-dialog" aria-labelledby="reference-title">
+    <div class="dialog-heading"><div><span class="eyebrow">PHOTOGRAPHS, OBSERVATIONS &amp; LIMITATIONS</span><h2 id="reference-title">Reference, not proof.</h2></div><button id="close-reference" type="button" aria-label="Close photograph reference">Close</button></div>
+    <p class="reference-disclaimer">This is a mathematical landscape informed by photographs, not a reproduction, a live camera or a physically accurate weather simulation. Reference images differ in date, exposure and sometimes viewpoint. No image verifies every season + weather + hour combination.</p>
+    <p id="reference-selection"></p>
+    <div id="reference-gallery"></div>
+    <p>Photographs are displayed for comparison only, never used as shader textures. Links below each image identify its author, source and license. Stored images are resized previews without compositing or color edits.</p>
+  </dialog>
+  <div id="error" role="alert" hidden></div>
+</body>
+</html>

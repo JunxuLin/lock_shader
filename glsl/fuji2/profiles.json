@@ -1,0 +1,13 @@
+{
+  "seasons": {
+    "spring": { "snowLine": 1.7, "snowCoverage": 0.96, "foliageColor": [0.07, 0.135, 0.06] },
+    "summer": { "snowLine": 3.5, "snowCoverage": 0.08, "foliageColor": [0.04, 0.115, 0.047] },
+    "autumn": { "snowLine": 2.35, "snowCoverage": 0.9, "foliageColor": [0.18, 0.09, 0.037] },
+    "winter": { "snowLine": 1.45, "snowCoverage": 1, "foliageColor": [0.045, 0.062, 0.054] }
+  },
+  "weather": {
+    "clear": { "cloudCoverage": 0.22, "fogDensity": 0.14, "wind": 0.85 },
+    "cloudy": { "cloudCoverage": 0.9, "fogDensity": 0.25, "wind": 1.3 },
+    "fog": { "cloudCoverage": 0.65, "fogDensity": 0.88, "wind": 0.4 }
+  }
+}

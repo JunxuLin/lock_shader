@@ -1,7 +1,7 @@
 {
   "contractVersion": 1,
   "id": "ms-logo",
-  "title": "Suspended Glass",
+  "title": "MS Logo",
   "description": "Four colored glass blocks with depth, polished bevels, a spring entrance and softly damped pointer parallax.",
   "source": "main.glsl",
   "initialTime": 0,
