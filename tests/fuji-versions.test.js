@@ -32,11 +32,11 @@ test("Fuji 1 base shader and legacy profile values remain preserved", async () =
   }
 });
 
-test("gallery exposes exactly Fuji 1, Fuji 2 and MS Logo", async () => {
+test("gallery exposes exactly Fuji 1, Fuji 2, MS Logo and Sea Cave", async () => {
   const ids = await json("glsl/index.json");
-  assert.deepEqual(ids, ["fuji-mountain", "fuji2", "ms-logo"]);
+  assert.deepEqual(ids, ["fuji-mountain", "fuji2", "ms-logo", "sea-cave"]);
   const scenes = await Promise.all(ids.map(id => json(`glsl/${id}/scene.json`)));
-  assert.deepEqual(scenes.map(scene => scene.title), ["Fuji 1", "Fuji 2", "MS Logo"]);
+  assert.deepEqual(scenes.map(scene => scene.title), ["Fuji 1", "Fuji 2", "MS Logo", "Sea Cave"]);
 });
 
 test("Fuji 2 profiles are independent and every selectable combination is valid", async () => {

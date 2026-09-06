@@ -98,7 +98,7 @@ resource disposal would need explicit contracts. Do not silently extend v1.
 
 ## Contract v2: configurable scenes
 
-v1 remains supported unchanged (Suspended Glass). Fuji uses v2, which adds
+v1 remains supported unchanged (MS Logo). Fuji and Sea Cave use v2, which adds
 `controls`, `presets`, `parameters` and `transitionSeconds` to its manifest.
 
 The separation is:
@@ -114,6 +114,13 @@ HTML controls / URL -> complete semantic state
 entire result from state and `profiles.json`. Season owns snow and vegetation,
 weather owns clouds/fog/wind, and scene time owns the sun hour. Selection order
 does not affect output. The player knows nothing about seasons or weather.
+
+`scenes/sea-cave/resolve.js` independently maps weather to `uCloudCoverage`,
+`uFogDensity` and `uWind`, sea state to `uWaveStrength`, and scene time to
+`uSunHour`. Calm/rolling/rough wave strengths are 0.2/0.55/1; clear weather defaults
+are 0.25 cloud coverage, 0.10 fog and 0.7 wind, with a 09:00 starting hour.
+Sea Cave has no precipitation overlay or image textures. Its approximate 2.5D
+pointer parallax does not imply free-camera geometry or a physical tide model.
 
 ### Parameters
 
@@ -157,7 +164,7 @@ These methods do not change playback behavior unless a scene opts in.
 `mountControls()` returns `{ state, setState(next, options) }`. State is a copy.
 `setState` always validates the semantic grid; `{ notify: false, writeURL: false }`
 updates the controls without calling the resolver or rewriting browser history.
-Both Fuji demos use the shared `web/runtime/day-preview.js` controller and
+Both Fuji demos and Sea Cave use the shared `web/runtime/day-preview.js` controller and
 `day-preview.css` stylesheet. They use that option for preview feedback, while their shaders receive continuous
 hours. Stop/completion synchronizes the renderer and URL to the valid 15-minute grid.
 

@@ -7,6 +7,8 @@ Original GLSL lockscreen studies with a lightweight, framework-free WebGL 2 gall
 - **Fuji 1:** preserved stylized edition, with configurable seasons, weather and scene time.
 - **Fuji 2:** independently forked photographic-reference study, with source photographs and explicit evidence gaps.
 - **MS Logo:** unofficial Microsoft logo study with extruded glass, spring entrance and pointer parallax.
+- **Sea Cave:** independent, texture-free 2.5D shoreline study with a dark cave opening,
+  two sea stacks, surf, foam, wet sand and clouds.
 
 These are visual experiments, not operating-system locks. The Fuji landscape is
 a procedural interpretation, not a photograph or geographically accurate model.
@@ -21,6 +23,7 @@ glsl/
     scene.json                Metadata + runtime contract
     profiles.json             Season/weather visual profiles (Fuji)
   fuji2/                      Independent shader, manifest and visual profiles
+  sea-cave/                   Independent shoreline shader, manifest and profiles
   shared/precipitation.glsl    Shared lightweight rain/snow alpha overlay
   ms-logo/
     main.glsl
@@ -33,9 +36,11 @@ web/
     fuji-mountain/            HTML/CSS + thin UI adapter + licensed photo reference
     fuji2/                    Independent demo + photographic-reference catalog
     ms-logo/                  HTML/CSS + thin UI adapter
+    sea-cave/                 Shoreline UI + about/limitations dialog; no source photo
 docs/CONTRACT.md               Uniforms, metadata, lifecycle and extension rules
 scenes/fuji-mountain/resolve.js Pure state-to-parameter mapping (no DOM/WebGL)
 scenes/fuji2/resolve.js        Independent Fuji 2 state-to-parameter mapping
+scenes/sea-cave/resolve.js     Pure weather/sea-state/light mapping
 scripts/build.mjs             Stages only public files into _site/
 tests/                        Node built-in contract tests
 .github/workflows/pages.yml   Validate, build and deploy
@@ -75,7 +80,7 @@ immediately. Invalid URL values show a warning and use the relevant default.
 The astronomical lighting and seasonal vegetation are artistic approximations,
 not a date/location-based solar simulation.
 
-**Day preview (Fuji 1 and Fuji 2):** open **Season, weather & light**, then select
+**Day preview (Fuji 1, Fuji 2 and Sea Cave):** open the scene settings, then select
 **Preview day / 60s**. One complete 24-hour cycle starts at the selected scene hour
 and advances at a constant rate: one real second represents 24 scene minutes.
 Clouds, water and the system clock keep their normal speed. The scene hour moves
@@ -89,6 +94,30 @@ once and returns to the starting hour. **Stop day preview** saves the nearest
 15-minute setting; manually changing controls or restoring browser history cancels
 the preview. The slider follows progress, but the URL is only saved when the
 preview stops/completes or the user changes a setting.
+
+## Sea Cave
+
+The fourth demo is an original procedural reconstruction guided by a supplied
+photograph, not a photographic reproduction. A dark cave opening frames two
+offshore sea stacks and a beach. Approximate 2.5D depth and subtle pointer parallax
+support this fixed composition; it is not free-camera geometry.
+
+Open **Sea, weather & light** for clear/cloudy/fog, calm/rolling/rough seas, and
+scene time in 15-minute steps. Weather owns cloud coverage, haze and wind;
+sea state independently owns wave strength. Morning, calm afternoon, golden hour,
+overcast surf, misty dawn and night presets are complete, shareable selections:
+
+`web/demos/sea-cave/?weather=clear&seaState=rolling&timeOfDay=9`
+
+The shared 60-second day preview changes only scene lighting. Surf and clouds keep
+their normal animation speed. There is no precipitation overlay, physical tide or
+erosion simulation. The local clock remains independent of scene time.
+
+**About this study** explains the reference limits. The supplied photograph is
+not redistributed or used as a texture; its location, authorship and license are
+unverified. No geographic attribution or photographic fidelity is claimed. Other
+light and weather settings are fictional artistic variations. The gallery poster
+is rendered from the procedural shader, not the supplied photograph.
 
 ## Two Fuji editions
 
@@ -158,12 +187,12 @@ browser with WebGL 2, JavaScript and hardware acceleration.
 ## Controls and motion
 
 Space pauses/resumes when focus is outside a button/link. F toggles fullscreen.
-Fuji: H hides/restores the interface. Glass: H toggles the clock, R replays the entrance.
+Fuji and Sea Cave: H hides/restores the interface. Glass: H toggles the clock, R replays the entrance.
 Buttons retain normal keyboard behavior when focused.
 
 Reduced-motion users start on a completed still frame with an explicit explanation;
 Play opts into animation. Reference dialogs and hidden tabs suspend rendering.
-Each player shows state and active animation time. Fuji targets 30 FPS, glass 60 FPS,
+Each player shows state and active animation time. Fuji and Sea Cave target 30 FPS, glass 60 FPS,
 with DPR caps and adaptive pixel budgets; these are not performance guarantees.
 
 ## GitHub Pages
@@ -178,6 +207,7 @@ Live paths:
 - `https://JunxuLin.github.io/lock_shader/web/demos/fuji-mountain/`
 - `https://JunxuLin.github.io/lock_shader/web/demos/fuji2/`
 - `https://JunxuLin.github.io/lock_shader/web/demos/ms-logo/`
+- `https://JunxuLin.github.io/lock_shader/web/demos/sea-cave/`
 
 ## Attribution and rights
 

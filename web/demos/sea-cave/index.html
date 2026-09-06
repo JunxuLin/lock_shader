@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#211e1a">
+  <meta name="description" content="An original texture-free 2.5D shoreline study: a cave opening, two sea stacks and slowly moving surf.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../../runtime/day-preview.css">
+  <title>Sea Cave / A shoreline study</title>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <canvas id="landscape" aria-label="Procedural beach through a dark cave opening, with two offshore sea stacks, moving surf, foam, wet sand and clouds"></canvas>
+  <div class="scrim" aria-hidden="true"></div>
+  <main id="interface">
+    <header>
+      <a class="identity" href="../../" aria-label="Back to shader gallery"><svg viewBox="0 0 32 24" aria-hidden="true"><path d="M3 21V12C3-1 29-1 29 12v9M8 21l2-6 3-1 2 7m4 0 2-9 3 1 2 8M1 23h30"/></svg><span>SEA CAVE / SHORELINE STUDY</span></a>
+      <span class="series">PROCEDURAL / TEXTURE-FREE</span>
+    </header>
+    <section class="clock" aria-label="Local date and time">
+      <p id="date"></p>
+      <time id="time"></time>
+      <span class="clock-note">CLEAR / ROLLING SEA</span>
+    </section>
+    <details class="scene-settings">
+      <summary>Sea, weather &amp; light</summary>
+      <div id="scene-controls"></div>
+      <div class="day-preview">
+        <button id="day-preview" type="button" aria-pressed="false" disabled>Preview day / 60s</button>
+        <output id="day-preview-progress" aria-live="off"></output>
+        <p id="day-preview-status" role="status">One cycle from the selected hour. Pause freezes the preview. Stop saves the nearest 15 minutes.</p>
+      </div>
+    </details>
+    <footer>
+      <div class="location"><span class="eyebrow">AN IMAGINED MOMENT AT THE WATER'S EDGE</span><h1>Sea Cave</h1><p>A procedural shoreline <span>·</span> Not live footage</p></div>
+      <div class="right">
+        <div class="live-label" data-state="loading"><span class="motion-dot" aria-hidden="true"></span><span id="motion-status" role="status">LOADING SHADER</span><span id="motion-time" aria-hidden="true">00:00</span></div>
+        <nav aria-label="Shoreline controls">
+          <button id="motion" type="button" aria-pressed="false" disabled>Pause</button>
+          <button id="clean" type="button" aria-pressed="false" title="Hide interface (H)">Hide UI</button>
+          <button id="fullscreen" type="button" title="Fullscreen (F)">Fullscreen</button>
+          <button id="reference" type="button" aria-haspopup="dialog">About this study</button>
+          <a id="download" href="../../../glsl/sea-cave/main.glsl" title="Standalone GLSL with default settings" download>GLSL <span aria-hidden="true">↓</span></a>
+        </nav>
+      </div>
+    </footer>
+  </main>
+  <button id="restore" type="button" hidden>Show controls</button>
+  <dialog id="reference-dialog" aria-labelledby="reference-title">
+    <div class="dialog-heading"><div><span class="eyebrow">REFERENCE &amp; LIMITATIONS</span><h2 id="reference-title">About this study</h2></div><button id="close-reference" type="button" aria-label="Close about this study" autofocus>Close</button></div>
+    <p>An original, texture-free procedural reconstruction guided by a supplied photograph: a dark cave opening frames a beach and two offshore sea stacks. Shapes, surface detail, clouds and surf are generated mathematically; no photograph or external texture is sampled.</p>
+    <p>The reference photograph is not redistributed here. Its location, authorship and license have not been verified, so this study makes no geographic attribution or claim of photographic fidelity.</p>
+    <p>This is a 2.5D composition with approximate depth and subtle pointer parallax, not free-camera geometry. Waves, foam and wet sand suggest a shoreline; there is no physical tide or erosion simulation.</p>
+    <p>Other light and weather settings are fictional artistic variations, not documented conditions. Sea state and weather are independent controls. This version has no rain or snow overlay.</p>
+    <p class="technique">The clock shows your local time. Scene time changes lighting only; the 60-second day preview does not speed up the surf or clouds. Space pauses, F toggles fullscreen, and H hides the interface. Opening this dialog suspends rendering.</p>
+  </dialog>
+  <div id="error" role="alert" hidden></div>
+</body>
+</html>

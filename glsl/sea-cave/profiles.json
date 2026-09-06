@@ -1,0 +1,12 @@
+{
+  "weather": {
+    "clear": { "cloudCoverage": 0.25, "fogDensity": 0.1, "wind": 0.7 },
+    "cloudy": { "cloudCoverage": 0.9, "fogDensity": 0.28, "wind": 1.2 },
+    "fog": { "cloudCoverage": 0.65, "fogDensity": 0.85, "wind": 0.35 }
+  },
+  "seaStates": {
+    "calm": { "waveStrength": 0.2 },
+    "rolling": { "waveStrength": 0.55 },
+    "rough": { "waveStrength": 1 }
+  }
+}

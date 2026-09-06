@@ -9,8 +9,8 @@ const schema = {
   uSnowLine: { type: "float", min: 0, max: 4, default: 1.45 },
 };
 
-test("both Fuji demos wire the shared day-preview controller and styles", async () => {
-  for (const id of ["fuji-mountain", "fuji2"]) {
+test("Fuji and Sea Cave demos wire the shared day-preview controller and styles", async () => {
+  for (const id of ["fuji-mountain", "fuji2", "sea-cave"]) {
     const root = new URL(`../web/demos/${id}/`, import.meta.url);
     const html = await readFile(new URL("index.html", root), "utf8");
     const app = await readFile(new URL("app.js", root), "utf8");
