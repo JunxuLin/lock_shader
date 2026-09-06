@@ -21,6 +21,7 @@ glsl/
     scene.json                Metadata + runtime contract
     profiles.json             Season/weather visual profiles (Fuji)
   fuji2/                      Independent shader, manifest and visual profiles
+  shared/precipitation.glsl    Shared lightweight rain/snow alpha overlay
   ms-logo/
     main.glsl
     scene.json
@@ -47,9 +48,17 @@ handling, pointer smoothing and resolution budgets. See [the v1/v2 contract](doc
 ## Configurable Fuji
 
 Open **Season, weather & light** in either Fuji demo. Choose spring/summer/autumn/winter,
-clear/cloudy/fog, or a scene time from 00:00 to 24:00. Presets include winter morning,
-spring mist, summer noon, autumn sunset and winter night. Rain/snow particles are
-not implemented; snow cover is independent of weather.
+clear/cloudy/fog, rain/heavy rain, snow/heavy snow, or a scene time from 00:00 to
+24:00. Presets include winter morning, spring mist, summer noon, autumn sunset,
+winter night, summer rain/downpour and winter flurries/heavy snow.
+
+Rain uses layered slanted streaks and subtle schematic ripple impacts in the lower
+lake foreground. Snow uses three layers of differently sized, drifting flakes.
+Heavy presets increase precipitation, clouds, haze and wind. Rain/snow is a shared
+screen-space GLSL overlay, not a second terrain render or a DOM particle system.
+Clear/cloudy/fog skip this extra draw entirely. No lightning or strobing is added.
+Snow cover remains seasonal: falling snow does not simulate accumulation, melting
+or a temperature model. Unusual combinations such as summer snowfall are artistic.
 
 Selections update the URL, so copy the address to share:
 
@@ -80,9 +89,10 @@ preview stops/completes or the user changes a setting.
 ## Two Fuji editions
 
 The annotated tag **`fuji-v1`** preserves the complete original configurable release
-(`f00a4f5`). Fuji 1 keeps its existing `fuji-mountain` URL, shader, visual profiles
-and resolver. Its web controls can gain shared features such as day preview without
-changing the original landscape. Fuji 2 has separate
+(`f00a4f5`). Fuji 1 keeps its existing `fuji-mountain` URL and base landscape shader.
+Its original season and clear/cloudy/fog profile values are preserved; new weather
+profiles and a separate precipitation overlay extend them. Shared controls such as
+day preview do not change the original landscape. Fuji 2 has separate
 `glsl/fuji2`, `scenes/fuji2` and `web/demos/fuji2` folders, so subsequent artistic
 changes do not replace Fuji 1. Both editions use the same optional day-preview
 controller and stylesheet in `web/runtime/`; the tag retains the original full snapshot.
@@ -102,14 +112,14 @@ deciduous foliage rather than an entirely orange mountain, lower distant ridges,
 blue atmospheric separation, a populated shoreline and stronger broken water
 reflections. Still photographs guide appearance, not animation speed.
 
-The editions still use the same central composition, single-pass heightfield
+The editions still use the same central composition, single-pass base heightfield
 rendering, projected noise clouds and ray-traced lake reflections. Fuji 2 is an
 incremental reference-informed revision, not a photorealistic rebuild. Lower
 background ridges and patchy autumn vegetation are more apparent than the subtle
 winter material changes; compare matching presets and scene hours.
 
 **Evidence gaps:** the set does not establish a winter capture, spring conditions,
-fog or full overcast. Those settings are explicitly marked as inferred. The sunset
+fog, full overcast or falling rain/snow. Those settings are explicitly marked as inferred. The sunset
 photo's description and recorded hour conflict; both are preserved in its caption.
 The night photo is a summer town view with exposure effects, not evidence for the
 shader's winter midnight, moon or stars.
@@ -184,3 +194,9 @@ is not affiliated with or endorsed by Microsoft or Apple.
 
 No blanket source-code license has been selected yet. Public availability alone
 does not grant unrestricted reuse; reference photographs retain their explicit licenses.
+
+The **GLSL** download is the standalone base landscape. The separate
+[rain/snow GLSL](glsl/shared/precipitation.glsl) is linked in each demo's reference
+panel. Its standalone constants show rain over black; change `uRainAmount` and
+`uSnowAmount` there for independent experimentation. Web manifests inject the
+selected values and composite its premultiplied alpha over the landscape.

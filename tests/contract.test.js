@@ -21,6 +21,12 @@ for (const id of ids) {
     assert.match(shader, /void\s+mainImage\s*\(\s*out\s+vec4\s+\w+\s*,\s*in\s+vec2\s+\w+\s*\)/);
     const code = shader.replace(/\/\/[^\n]*|\/\*[\s\S]*?\*\//g, "");
     assert.doesNotMatch(code, /#version|\buniform\b|\bsampler\w*\b|\biChannel\d\b|\bvoid\s+main\s*\(/);
+    if (scene.overlay) {
+      const overlayUrl = new URL(scene.overlay.source, new URL(`glsl/${id}/scene.json`, root));
+      const overlay = await readFile(overlayUrl, "utf8");
+      assert.match(overlay, /void\s+mainImage\s*\(/);
+      assert.doesNotMatch(overlay, /#version|\buniform\b|\bsampler\w*\b|\btraceTerrain\b/);
+    }
     for (const path of [`web/demos/${id}/index.html`, `web/demos/${id}/app.js`, `web/assets/${id}.jpg`]) {
       await access(new URL(path, root));
     }

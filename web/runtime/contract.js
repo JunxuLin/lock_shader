@@ -52,7 +52,23 @@ export function validateScene(scene) {
       throw new Error("Invalid transitionSeconds.");
     }
   }
+  if (scene.overlay !== undefined) {
+    const overlay = scene.overlay;
+    if (scene.contractVersion !== 2 || !overlay
+        || typeof overlay.source !== "string"
+        || !/^(?:\.\.\/)?(?:[a-z0-9-]+\/)*[a-z0-9-]+\.glsl$/.test(overlay.source)
+        || !Array.isArray(overlay.enabledBy) || !overlay.enabledBy.length
+        || new Set(overlay.enabledBy).size !== overlay.enabledBy.length
+        || !overlay.enabledBy.every(name => typeof name === "string"
+          && scene.parameters[name]?.type === "float" && scene.parameters[name].min >= 0)) {
+      throw new Error("Invalid v2 overlay: expected a local GLSL source and non-negative float activation parameters.");
+    }
+  }
   return scene;
+}
+
+export function overlayEnabled(scene, values) {
+  return Boolean(scene.overlay && scene.overlay.enabledBy.some(name => values[name] > 0));
 }
 
 export async function loadScene(url) {

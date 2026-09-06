@@ -43,7 +43,7 @@
           <button id="clean" type="button" aria-pressed="false" title="Hide interface (H)">Hide UI</button>
           <button id="fullscreen" type="button" title="Fullscreen (F)">Fullscreen</button>
           <button id="reference" type="button">References <span aria-hidden="true">↗</span></button>
-          <a id="download" href="../../../glsl/fuji2/main.glsl" download>GLSL <span aria-hidden="true">↓</span></a>
+          <a id="download" href="../../../glsl/fuji2/main.glsl" title="Base landscape GLSL; the separate rain/snow shader is linked in References" download>GLSL <span aria-hidden="true">↓</span></a>
         </nav>
       </div>
     </footer>
@@ -53,6 +53,8 @@
     <div class="dialog-heading"><div><span class="eyebrow">PHOTOGRAPHS, OBSERVATIONS &amp; LIMITATIONS</span><h2 id="reference-title">Reference, not proof.</h2></div><button id="close-reference" type="button" aria-label="Close photograph reference">Close</button></div>
     <p class="reference-disclaimer">This is a mathematical landscape informed by photographs, not a reproduction, a live camera or a physically accurate weather simulation. Reference images differ in date, exposure and sometimes viewpoint. No image verifies every season + weather + hour combination.</p>
     <p id="reference-selection"></p>
+    <p>Rain and snow presets are illustrative, not directly supported by these photographs. Falling snow does not instantly change accumulated mountain snow.
+      <a href="../../../glsl/shared/precipitation.glsl" download>Download rain/snow overlay GLSL</a> (separate from the landscape shader).</p>
     <div id="reference-gallery"></div>
     <p>Photographs are displayed for comparison only, never used as shader textures. Links below each image identify its author, source and license. Stored images are resized previews without compositing or color edits.</p>
   </dialog>

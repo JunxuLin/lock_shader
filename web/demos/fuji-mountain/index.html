@@ -42,7 +42,7 @@
           <button id="clean" type="button" aria-pressed="false" title="Hide interface (H)">Hide UI</button>
           <button id="fullscreen" type="button" title="Fullscreen (F)">Fullscreen</button>
           <button id="reference" type="button">Photo reference <span aria-hidden="true">↗</span></button>
-          <a id="download" href="../../../glsl/fuji-mountain/main.glsl" download>GLSL <span aria-hidden="true">↓</span></a>
+          <a id="download" href="../../../glsl/fuji-mountain/main.glsl" title="Base landscape GLSL; the separate rain/snow shader is linked in Photo reference" download>GLSL <span aria-hidden="true">↓</span></a>
         </nav>
       </div>
     </footer>
@@ -55,6 +55,8 @@
       <a href="https://commons.wikimedia.org/wiki/File:Mount_Fuji_from_Lake_Kawaguchi.jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a> ·
       <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noreferrer">CC BY 3.0</a>. Original photograph, unmodified.</p>
     <p>The photograph informs the silhouette, snow cover and layered foothills. The landscape behind this panel is an original, texture-free shader interpretation with a different light and composition, not an animated photograph.</p>
+    <p>Rain and snow are illustrative particle effects, not weather documented by this photograph. Falling snow does not instantly change the season's accumulated mountain snow.
+      <a href="../../../glsl/shared/precipitation.glsl" download>Download rain/snow overlay GLSL</a> (separate from the landscape shader).</p>
     <p class="technique">Technique references: heightfield rendering and atmospheric depth, as seen in
       <a href="https://www.shadertoy.com/view/lsf3WH" target="_blank" rel="noreferrer">iq’s Elevated</a>;
       <a href="https://thebookofshaders.com/13/" target="_blank" rel="noreferrer">fractal Brownian motion</a> for clouds and terrain.

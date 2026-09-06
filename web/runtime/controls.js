@@ -19,7 +19,7 @@ export function mountControls(container, scene, onChange) {
     const field = document.createElement(control.type === "enum" ? "select" : "input");
     field.id = `scene-${key}`;
     if (control.type === "enum") {
-      for (const option of control.options) field.add(new Option(option[0].toUpperCase() + option.slice(1), option));
+      for (const option of control.options) field.add(new Option((option[0].toUpperCase() + option.slice(1)).replaceAll("-", " "), option));
     } else {
       field.type = "range";
       field.min = control.min;

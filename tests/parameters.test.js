@@ -45,7 +45,7 @@ test("URL state is validated, preserves other query keys and restores defaults v
   assert.equal(roundtrip.searchParams.get("extra"), "keep");
   assert.equal(roundtrip.hash, "#view");
   assert.deepEqual(stateFromURL(scene.controls, roundtrip).state, parsed.state);
-  const bad = stateFromURL(scene.controls, new URL("https://example.org/?season=nope&weather=rain&timeOfDay="));
+  const bad = stateFromURL(scene.controls, new URL("https://example.org/?season=nope&weather=hail&timeOfDay="));
   assert.equal(bad.issues.length, 3);
   assert.deepEqual(bad.state, defaultState(scene.controls));
   for (const value of ["NaN", "Infinity", "-1", "25", "7.999"]) {

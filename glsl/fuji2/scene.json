@@ -4,6 +4,7 @@
   "title": "Fuji 2",
   "description": "A separate photographic-reference study with revised terrain, snow, atmosphere and water. View source photographs and evidence gaps; this remains a procedural reconstruction.",
   "source": "main.glsl",
+  "overlay": { "source": "../shared/precipitation.glsl", "enabledBy": ["uRainAmount", "uSnowAmount"] },
   "initialTime": 24,
   "posterTime": 24,
   "pointer": false,
@@ -13,7 +14,7 @@
   "transitionSeconds": 2.5,
   "controls": {
     "season": { "type": "enum", "label": "Season", "options": ["spring", "summer", "autumn", "winter"], "default": "winter" },
-    "weather": { "type": "enum", "label": "Weather", "options": ["clear", "cloudy", "fog"], "default": "clear" },
+    "weather": { "type": "enum", "label": "Weather", "options": ["clear", "cloudy", "fog", "rain", "heavy-rain", "snow", "heavy-snow"], "default": "clear" },
     "timeOfDay": { "type": "number", "label": "Scene time", "min": 0, "max": 24, "step": 0.25, "default": 7.5 }
   },
   "presets": [
@@ -21,7 +22,11 @@
     { "id": "spring-mist", "label": "Spring mist", "values": { "season": "spring", "weather": "fog", "timeOfDay": 8 } },
     { "id": "summer-noon", "label": "Summer noon", "values": { "season": "summer", "weather": "clear", "timeOfDay": 12 } },
     { "id": "autumn-sunset", "label": "Autumn sunset", "values": { "season": "autumn", "weather": "clear", "timeOfDay": 17.5 } },
-    { "id": "winter-night", "label": "Winter night", "values": { "season": "winter", "weather": "clear", "timeOfDay": 0 } }
+    { "id": "winter-night", "label": "Winter night", "values": { "season": "winter", "weather": "clear", "timeOfDay": 0 } },
+    { "id": "summer-rain", "label": "Summer rain", "values": { "season": "summer", "weather": "rain", "timeOfDay": 14 } },
+    { "id": "summer-downpour", "label": "Summer downpour", "values": { "season": "summer", "weather": "heavy-rain", "timeOfDay": 14 } },
+    { "id": "winter-flurries", "label": "Winter flurries", "values": { "season": "winter", "weather": "snow", "timeOfDay": 9 } },
+    { "id": "winter-snowfall", "label": "Heavy winter snow", "values": { "season": "winter", "weather": "heavy-snow", "timeOfDay": 9 } }
   ],
   "parameters": {
     "uSunHour": { "type": "float", "min": 0, "max": 24, "wrap": true, "default": 7.5 },
@@ -30,6 +35,8 @@
     "uFoliageColor": { "type": "vec3", "min": 0, "max": 1, "default": [0.045, 0.062, 0.054] },
     "uCloudCoverage": { "type": "float", "min": 0, "max": 1, "default": 0.22 },
     "uFogDensity": { "type": "float", "min": 0, "max": 1, "default": 0.14 },
-    "uWind": { "type": "float", "min": 0, "max": 2, "default": 0.85 }
+    "uWind": { "type": "float", "min": 0, "max": 2, "default": 0.85 },
+    "uRainAmount": { "type": "float", "min": 0, "max": 1, "default": 0 },
+    "uSnowAmount": { "type": "float", "min": 0, "max": 1, "default": 0 }
   }
 }

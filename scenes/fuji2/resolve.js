@@ -14,5 +14,7 @@ export function resolveFujiParameters(state, scene, profiles) {
     uCloudCoverage: weather.cloudCoverage,
     uFogDensity: weather.fogDensity,
     uWind: weather.wind,
+    uRainAmount: weather.rainAmount,
+    uSnowAmount: weather.snowAmount,
   });
 }

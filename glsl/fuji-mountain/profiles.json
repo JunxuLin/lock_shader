@@ -6,8 +6,12 @@
     "winter": { "snowLine": 1.15, "snowCoverage": 1, "foliageColor": [0.04, 0.08, 0.095] }
   },
   "weather": {
-    "clear": { "cloudCoverage": 0.22, "fogDensity": 0.1, "wind": 0.85 },
-    "cloudy": { "cloudCoverage": 0.9, "fogDensity": 0.25, "wind": 1.3 },
-    "fog": { "cloudCoverage": 0.65, "fogDensity": 0.88, "wind": 0.4 }
+    "clear": { "cloudCoverage": 0.22, "fogDensity": 0.1, "wind": 0.85, "rainAmount": 0, "snowAmount": 0 },
+    "cloudy": { "cloudCoverage": 0.9, "fogDensity": 0.25, "wind": 1.3, "rainAmount": 0, "snowAmount": 0 },
+    "fog": { "cloudCoverage": 0.65, "fogDensity": 0.88, "wind": 0.4, "rainAmount": 0, "snowAmount": 0 },
+    "rain": { "cloudCoverage": 0.82, "fogDensity": 0.32, "wind": 1.1, "rainAmount": 0.4, "snowAmount": 0 },
+    "heavy-rain": { "cloudCoverage": 1, "fogDensity": 0.67, "wind": 1.8, "rainAmount": 1, "snowAmount": 0 },
+    "snow": { "cloudCoverage": 0.72, "fogDensity": 0.28, "wind": 0.4, "rainAmount": 0, "snowAmount": 0.35 },
+    "heavy-snow": { "cloudCoverage": 0.96, "fogDensity": 0.62, "wind": 0.9, "rainAmount": 0, "snowAmount": 1 }
   }
 }

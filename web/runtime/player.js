@@ -1,4 +1,4 @@
-import { loadScene } from "./contract.js";
+import { loadScene, overlayEnabled } from "./contract.js";
 import { ParameterTransition } from "./parameters.js";
 
 function createProgram(gl, source, scene) {
@@ -51,6 +51,13 @@ export async function createPlayer(canvas, manifestUrl, options = {}) {
   const response = await fetch(sourceUrl, { cache: "no-store" });
   if (!response.ok) throw new Error(`Unable to load GLSL: HTTP ${response.status} (${sourceUrl})`);
   const source = await response.text();
+  let overlaySource;
+  const overlaySourceUrl = scene.overlay ? new URL(scene.overlay.source, manifestUrl) : null;
+  if (overlaySourceUrl) {
+    const overlayResponse = await fetch(overlaySourceUrl, { cache: "no-store" });
+    if (!overlayResponse.ok) throw new Error(`Unable to load overlay GLSL: HTTP ${overlayResponse.status} (${overlaySourceUrl})`);
+    overlaySource = await overlayResponse.text();
+  }
   const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, depth: false });
   if (!gl) throw new Error("WebGL 2 is unavailable. Enable browser hardware acceleration.");
   const parameters = scene.contractVersion === 2 ? new ParameterTransition(scene.parameters) : null;
@@ -59,11 +66,25 @@ export async function createPlayer(canvas, manifestUrl, options = {}) {
     parameters.set(options.parameters);
   }
   const program = createProgram(gl, source, scene);
-  return new ShaderPlayer(canvas, gl, program, scene, sourceUrl, parameters);
+  let overlay = null;
+  try {
+    if (overlaySourceUrl) overlay = { program: createProgram(gl, overlaySource, scene), sourceUrl: overlaySourceUrl };
+  } catch (error) {
+    gl.deleteProgram(program);
+    throw error;
+  }
+  return new ShaderPlayer(canvas, gl, program, scene, sourceUrl, parameters, overlay);
+}
+
+function uniformLocations(gl, program, scene) {
+  return {
+    uniforms: Object.fromEntries(["iTime", "iResolution", "iMouse"].map(name => [name, gl.getUniformLocation(program, name)])),
+    parameterUniforms: Object.fromEntries(Object.keys(scene.parameters || {}).map(name => [name, gl.getUniformLocation(program, name)])),
+  };
 }
 
 class ShaderPlayer extends EventTarget {
-  constructor(canvas, gl, program, scene, sourceUrl, parameters) {
+  constructor(canvas, gl, program, scene, sourceUrl, parameters, overlay) {
     super();
     this.canvas = canvas;
     this.gl = gl;
@@ -71,6 +92,8 @@ class ShaderPlayer extends EventTarget {
     this.scene = scene;
     this.sourceUrl = sourceUrl;
     this.parameters = parameters;
+    this.overlay = overlay ? { ...overlay, ...uniformLocations(gl, overlay.program, scene) } : null;
+    this.overlaySourceUrl = overlay?.sourceUrl || null;
     this.motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
     this.paused = this.motionPreference.matches;
     this.pauseReason = this.paused ? "reduced-motion" : "user";
@@ -91,8 +114,9 @@ class ShaderPlayer extends EventTarget {
     this.listeners = new AbortController();
     const options = { signal: this.listeners.signal };
     gl.useProgram(program);
-    this.uniforms = Object.fromEntries(["iTime", "iResolution", "iMouse"].map(name => [name, gl.getUniformLocation(program, name)]));
-    this.parameterUniforms = Object.fromEntries(Object.keys(scene.parameters || {}).map(name => [name, gl.getUniformLocation(program, name)]));
+    const locations = uniformLocations(gl, program, scene);
+    this.uniforms = locations.uniforms;
+    this.parameterUniforms = locations.parameterUniforms;
     window.addEventListener("resize", () => this.resize(), options);
     document.addEventListener("visibilitychange", () => this.sync(), options);
     window.addEventListener("pageshow", () => this.sync(), options);
@@ -194,14 +218,15 @@ class ShaderPlayer extends EventTarget {
     if (this.state.playing) this.frame = requestAnimationFrame(now => this.tick(now));
   }
 
-  draw() {
-    if (this.contextLost || this.disposed) return;
-    const { gl, canvas, uniforms } = this;
+  drawProgram(program, uniforms, parameterUniforms) {
+    const { gl, canvas } = this;
+    gl.useProgram(program);
     gl.uniform3f(uniforms.iResolution, canvas.width, canvas.height, 1);
     gl.uniform1f(uniforms.iTime, this.time);
     if (this.parameters) {
       for (const [name, value] of Object.entries(this.parameters.values)) {
-        const location = this.parameterUniforms[name];
+        const location = parameterUniforms[name];
+        if (location === null) continue;
         if (this.scene.parameters[name].type === "vec3") gl.uniform3fv(location, value);
         else gl.uniform1f(location, value);
       }
@@ -212,6 +237,19 @@ class ShaderPlayer extends EventTarget {
       (this.pointer.y * 0.5 + 0.5) * canvas.height,
       this.scene.pointer && !this.motionPreference.matches ? 1 : 0, 0);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+
+  draw() {
+    if (this.contextLost || this.disposed) return;
+    this.drawProgram(this.program, this.uniforms, this.parameterUniforms);
+    if (this.overlay && overlayEnabled(this.scene, this.parameters.values)) {
+      const gl = this.gl;
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+      this.drawProgram(this.overlay.program, this.overlay.uniforms, this.overlay.parameterUniforms);
+      gl.disable(gl.BLEND);
+      gl.useProgram(this.program);
+    }
     const second = Math.floor(this.time - this.scene.initialTime);
     if (second !== this.lastSecond) {
       this.lastSecond = second;
@@ -268,7 +306,9 @@ class ShaderPlayer extends EventTarget {
     this.disposed = true;
     this.sync();
     this.listeners.abort();
+    this.gl.useProgram(null);
     this.gl.deleteProgram(this.program);
+    if (this.overlay) this.gl.deleteProgram(this.overlay.program);
     this.canvas.dataset.ready = "false";
   }
 }

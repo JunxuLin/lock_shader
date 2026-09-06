@@ -3,6 +3,8 @@
 The GLSL is the portable effect. The browser is one host, not part of the shader.
 No shared GLSL includes, bundler, textures, buffer passes or external services are
 required. This deliberately small contract should remain easy to paste into Shadertoy.
+v2 may additionally declare one independent, texture-free alpha overlay. It is a
+separate source, not an include or a second rendering of the landscape.
 
 ## Entry point
 
@@ -177,3 +179,36 @@ v2 sources retain typed constants inside `#ifndef LOCK_SHADER_PARAMETERS` for di
 Shadertoy use. The website injects uniforms instead. Raw GLSL download shows the
 default scene, not the current URL selection; edit fallback constants to customize
 it outside this host. No channels or textures are introduced by v2.
+
+### Optional v2 overlay
+
+```json
+{
+  "overlay": {
+    "source": "../shared/precipitation.glsl",
+    "enabledBy": ["uRainAmount", "uSnowAmount"]
+  }
+}
+```
+
+An overlay has its own `mainImage` program and receives the same standard and
+typed scene uniforms. Its source must be a local relative `.glsl` path, with at
+most one leading `../`; absolute URLs, query strings and further traversal are
+rejected. Each activation parameter must be a declared non-negative float.
+
+The host skips the overlay when all activation values are zero. Otherwise it
+draws it once, immediately after the base image in the same frame, using
+`ONE, ONE_MINUS_SRC_ALPHA` blending. Output must be **premultiplied display RGB
+and alpha**; transparent pixels must have zero RGB. No scene-color texture,
+framebuffer copy, additional animation loop or terrain trace is involved.
+The base program and disabled blending state are restored afterward. Disposal
+deletes both programs, and overlay load/compile errors are surfaced explicitly.
+v1 scenes cannot declare an overlay and retain their existing single-pass behavior.
+
+`player.overlaySourceUrl` exposes its source link, or `null` when absent. Base
+GLSL downloads remain standalone landscapes; the overlay is downloaded separately.
+The shared precipitation source's fallback constants demonstrate rain over black,
+rather than the host's clear-weather defaults. Existing snow-line/coverage uniforms
+still describe accumulated terrain snow; `uSnowAmount` describes falling particles.
+Both the overlay and base consume normal active `iTime`, so day preview accelerates
+solar lighting only, never rain, snowfall or water animation.
