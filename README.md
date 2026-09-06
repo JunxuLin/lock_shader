@@ -52,8 +52,12 @@ clear/cloudy/fog, rain/heavy rain, snow/heavy snow, or a scene time from 00:00 t
 24:00. Presets include winter morning, spring mist, summer noon, autumn sunset,
 winter night, summer rain/downpour and winter flurries/heavy snow.
 
-Rain uses layered slanted streaks and subtle schematic ripple impacts in the lower
-lake foreground. Snow uses three layers of differently sized, drifting flakes.
+Rain varies stream speed, streak length, width, slant and brightness, with
+independently timed ripple impacts in the lower lake foreground. Snow uses three
+depth ranges with different fall speeds, individual flutter/tumbling and sparse,
+soft-focused foreground flakes. Slowly advected density patches leave quieter gaps;
+coherent gusts move groups without giving every particle the same trajectory.
+Randomness is tied to stable particle identifiers, not regenerated each frame.
 Heavy presets increase precipitation, clouds, haze and wind. Rain/snow is a shared
 screen-space GLSL overlay, not a second terrain render or a DOM particle system.
 Clear/cloudy/fog skip this extra draw entirely. No lightning or strobing is added.
